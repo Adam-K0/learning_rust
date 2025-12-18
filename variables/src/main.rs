@@ -2,6 +2,7 @@ use rand::Rng;
 
 const PI: f32 = 3.14159265;
 const AVOGADRO_NUM: f64 = 6.022e23;
+const MONKEYS: [char; 5] = ['🐒', '🐵', '🙈', '🙉', '🙊'];
 
 fn main() {
     let mut x = 5;
@@ -25,11 +26,17 @@ fn main() {
     println!("Adam's favorite emoji is {adam_fav_emoji}");
     
     print_random_monkey();
+    let monkey: char = return_random_monkey();
+    println!("{monkey}");
 }
 
 fn print_random_monkey(){
-    let monkeys: [char; 5] = ['🐒', '🐵', '🙈', '🙉', '🙊'];
     let random_index = rand::thread_rng().gen_range(0..=4); // produces integer in range [0,4]
-    let monkey  = monkeys[random_index];
+    let monkey  = MONKEYS[random_index];
     println!("Random monkey: {monkey}");
+}
+fn return_random_monkey()-> char{
+    let random_index = rand::thread_rng().gen_range(0..=4); // produces integer in range [0,4]
+    let monkey  = MONKEYS[random_index];
+    monkey
 }

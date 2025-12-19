@@ -1,4 +1,5 @@
 use rand::Rng;
+use std::io;
 
 const PI: f32 = 3.14159265;
 const AVOGADRO_NUM: f64 = 6.022e23;
@@ -14,7 +15,7 @@ fn main() {
     println!("Molecules of O2 in 32 grams of Oxygen gas: {AVOGADRO_NUM}");
 
     // shadowing
-    let word1 = "fizz";
+    let word1 = "foo";
     {
         let word1 = word1.len();
         println!("length of word1: {word1}");
@@ -27,9 +28,15 @@ fn main() {
     
     print_random_monkey();
     let monkey: char = return_random_monkey();
-    println!("{monkey}");
-    
-    fizzbuzz(16);
+    println!("Random monkey two: {}", monkey);
+
+    let mut input = String::new();
+    println!("Enter a number for FizzBuzz:");
+    io::stdin()
+        .read_line(&mut input)
+        .expect("Failed to read line");
+    let input: u32 =  input.trim().parse().expect("Please type a number");
+    fizzbuzz(input);
 }
 
 fn print_random_monkey(){
@@ -40,7 +47,7 @@ fn print_random_monkey(){
 fn return_random_monkey()-> char{
     let random_index = rand::thread_rng().gen_range(0..=4); // produces integer in range [0,4]
     let monkey  = MONKEYS[random_index];
-    monkey
+    return monkey
 }
 
 fn fizzbuzz(num: u32){

@@ -28,6 +28,8 @@ fn main() {
     print_random_monkey();
     let monkey: char = return_random_monkey();
     println!("{monkey}");
+    
+    fizzbuzz(16);
 }
 
 fn print_random_monkey(){
@@ -41,21 +43,22 @@ fn return_random_monkey()-> char{
     monkey
 }
 
-fn fizzbuzz(num: uint32){
-    ans: [String: num];
-    let fizz: bool = if i+1 % 3 == 0 {true} else {false};
-    let buzz: bool = if i+1 % 5 == 0 {true} else {false};
-    for i in (0..num) {
+fn fizzbuzz(num: u32){
+    for i in 1..=num{        
+        let fizz: bool = if i % 3 == 0 {true} else {false};
+        let buzz: bool = if i % 5 == 0 {true} else {false};
+
         if fizz && buzz{
-            ans[i] = 'fizzbuzz';
+            println!("fizzbuzz");
         }
-        elif fizz{
-            ans[i] = 'fizz';
-        elif buzz{
-            ans[i] = 'buzz';
+        else if fizz{
+            println!("fizz");
+        }
+        else if buzz{
+            println!("buzz");
         }
         else{
-            ans[i] = i;
+            println!("{i}");
         }
     }
 }

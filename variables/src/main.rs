@@ -40,3 +40,22 @@ fn return_random_monkey()-> char{
     let monkey  = MONKEYS[random_index];
     monkey
 }
+
+fn fizzbuzz(num: uint32){
+    ans: [String: num];
+    let fizz: bool = if i+1 % 3 == 0 {true} else {false};
+    let buzz: bool = if i+1 % 5 == 0 {true} else {false};
+    for i in (0..num) {
+        if fizz && buzz{
+            ans[i] = 'fizzbuzz';
+        }
+        elif fizz{
+            ans[i] = 'fizz';
+        elif buzz{
+            ans[i] = 'buzz';
+        }
+        else{
+            ans[i] = i;
+        }
+    }
+}

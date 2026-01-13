@@ -1,0 +1,6 @@
+[package]
+name = "Euclid_GCD_Algorithim"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]

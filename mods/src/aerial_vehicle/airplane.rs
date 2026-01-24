@@ -1,5 +1,3 @@
-use super::aerial_utils;
-
 pub enum UseCase{
     Commercial,
     Private,
@@ -18,8 +16,7 @@ impl Airplane{
     pub fn takeoff(&self){
         println!("Getting up to {} meters", self.max_altitude_meters);    
     }
-    pub fn land(&self, straight: bool){
-        use aerial_utils::land;
-        land(straight);
+    pub fn land(&self){
+        crate::aerial_vehicle::aerial_utils::land(false);
     }
 }

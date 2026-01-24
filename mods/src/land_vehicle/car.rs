@@ -9,7 +9,7 @@ enum Make{
     Porsche
 }
 
-struct Car{
+pub struct Car{
     num_wheels:u8,
     max_passengers : u8,
     top_speed:u8,

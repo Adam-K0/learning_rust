@@ -1,6 +1,6 @@
-use super::air_utils;
+use super::aerial_utils;
 
-enum UseCase{
+pub enum UseCase{
     Commercial,
     Private,
     Military,
@@ -8,14 +8,18 @@ enum UseCase{
     Other
 }
 
-struct Airplane{
-    name: String,
-    usecase: UseCase,
-    max_passengers: u16,
-    max_altitude_meters: u32,
+pub struct Airplane{
+    pub name: String,
+    pub usecase: UseCase,
+    pub max_passengers: u16,
+    pub max_altitude_meters: u32,
 }
 impl Airplane{
-    pub fn fly(&self){
-        
+    pub fn takeoff(&self){
+        println!("Getting up to {} meters", self.max_altitude_meters);    
+    }
+    pub fn land(&self, straight: bool){
+        use aerial_utils::land;
+        land(straight);
     }
 }

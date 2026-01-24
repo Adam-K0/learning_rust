@@ -1,6 +1,6 @@
-use super::air_utils;
+use super::aerial_utils;
 
-struct Helicopter{
+pub struct Helicopter{
     name : String,
     max_passengers: u8,
     num_rotors: u8,

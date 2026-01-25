@@ -13,7 +13,7 @@ pub struct Airplane{
     max_altitude_meters: u32,
 }
 
-use crate::aerial_vehicle;
+use super::super::aerial_vehicle;
 impl Airplane{
 
     pub fn new(name: String, usecase: UseCase, max_passengers: u16, max_altitude_meters:u32) -> Self{

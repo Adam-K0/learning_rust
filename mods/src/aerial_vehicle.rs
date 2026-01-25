@@ -3,6 +3,15 @@ pub mod helicopter;
 
 // shared aerial vehicle functions
 
+pub enum Action{
+    PitchUp,
+    PitchDown,
+    YawRight,
+    YawLeft,
+    RollRight,
+    RollLeft 
+}
+
 pub fn takeoff(straight: bool){
     if straight{
         println!(r"/ \");
@@ -25,4 +34,5 @@ pub fn land(straight: bool){
         println!(r" \  ");
         println!( "  -_");
     }
+
 }

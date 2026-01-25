@@ -1,4 +1,3 @@
-
 pub struct Helicopter{
     name : String,
     max_passengers: u8,
@@ -6,8 +5,7 @@ pub struct Helicopter{
     total_blades: u8,
 }
 
-
-use crate::aerial_vehicle;
+use super::super::aerial_vehicle;
 impl Helicopter{
 
     fn new(name: String, max_passengers: u8, num_rotors: u8, total_blades: u8) -> Self{

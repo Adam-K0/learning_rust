@@ -6,10 +6,7 @@ mod submarine;
 fn main() {
     use aerial_vehicle::airplane;
 
-    let x15 = airplane::Airplane{name : String::from("NASA X-15"),
-    usecase: airplane::UseCase::Other,
-    max_passengers : 1,
-    max_altitude_meters: 100000};
+    let x15 = airplane::Airplane::new(String::from("NASA X15"), airplane::UseCase::Other, 1,100000); 
 
     x15.takeoff();
 
@@ -25,5 +22,4 @@ fn main() {
     };
     
     dream_car.year = 2013;
-    println!("The {} Porsche 918 Spyder can get up to {} km per hour!", dream_car.year, dream_car.top_speed_kph);
 }

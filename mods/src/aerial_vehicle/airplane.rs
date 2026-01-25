@@ -7,14 +7,23 @@ pub enum UseCase{
 }
 
 pub struct Airplane{
-    pub name: String,
-    pub usecase: UseCase,
-    pub max_passengers: u16,
-    pub max_altitude_meters: u32,
+    name: String,
+    usecase: UseCase,
+    max_passengers: u16,
+    max_altitude_meters: u32,
 }
 impl Airplane{
+    pub fn new(name: String, usecase: UseCase, max_passengers: u16, max_altitude_meters:u32) -> Self{
+        Self{
+            name: name,
+            usecase: usecase,
+            max_passengers: max_passengers,
+            max_altitude_meters: max_altitude_meters
+        }
+    } 
+
     pub fn takeoff(&self){
-        println!("Getting up to {} meters", self.max_altitude_meters);    
+        println!("Getting up to {} meters", self.max_altitude_meters); 
     }
     pub fn land(&self){
         crate::aerial_vehicle::aerial_utils::land(false);

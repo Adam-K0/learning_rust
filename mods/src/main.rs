@@ -4,7 +4,7 @@ mod submarine;
 
 
 fn main() {
-    use aerial_vehicle::airplane;
+    use aerial_vehicle::{airplane,helicopter::Helicopter};
     use land_vehicle::car;
     
     let x15 = airplane::Airplane::new(String::from("NASA X15"), airplane::UseCase::Other, 1,100000); 

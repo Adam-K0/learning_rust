@@ -7,7 +7,7 @@ pub struct Helicopter{
 }
 
 
-use crate::aerial_vehicle::aerial_utils;
+use crate::aerial_vehicle;
 impl Helicopter{
 
     fn new(name: String, max_passengers: u8, num_rotors: u8, total_blades: u8) -> Self{
@@ -20,9 +20,9 @@ impl Helicopter{
     }
 
     fn land(&self){
-        aerial_utils::land(true);
+        aerial_vehicle::land(true);
     }
     fn takeoff(&self){
-        aerial_utils::takeoff(true);
+        aerial_vehicle::takeoff(true);
     }
 }

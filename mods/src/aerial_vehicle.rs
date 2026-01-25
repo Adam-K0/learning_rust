@@ -1,3 +1,6 @@
+pub mod airplane;
+pub mod helicopter;
+
 // shared aerial vehicle functions
 
 pub fn takeoff(straight: bool){

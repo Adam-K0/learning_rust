@@ -42,9 +42,14 @@ mod tests {
 
     #[test]
     fn seq_search(){
-        let nums = vec![5,12,55,19];
-        let targetNum = 55;
-
+        let mut nums = vec![5,12,55,19];
+        let mut targetNum = 55;
         assert_eq!(*sequential(&nums, targetNum).unwrap(), targetNum);
+        nums.push(123);
+        assert_eq!(*sequential(&nums, targetNum).unwrap(), targetNum);
+        nums.push(55); // repeat val
+        assert_eq!(*sequential(&nums, targetNum).unwrap(), targetNum);
+        targetNum = 1; // won't find
+        assert_eq!(sequential(&nums, targetNum), None);
     }
 }

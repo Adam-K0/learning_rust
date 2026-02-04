@@ -40,16 +40,32 @@ fn progressive_guessing(list: &[i32], target: i32) -> Option<&i32>{
 mod tests {
     use super::*;
 
+	const NUMS: [i32; 4] = [5,12,55,19];
+	const TARGET_NUM: i32 = 55;
+
     #[test]
     fn seq_search(){
-        let mut nums = vec![5,12,55,19];
-        let mut targetNum = 55;
-        assert_eq!(*sequential(&nums, targetNum).unwrap(), targetNum);
-        nums.push(123);
-        assert_eq!(*sequential(&nums, targetNum).unwrap(), targetNum);
-        nums.push(55); // repeat val
-        assert_eq!(*sequential(&nums, targetNum).unwrap(), targetNum);
-        targetNum = 1; // won't find
-        assert_eq!(sequential(&nums, targetNum), None);
+		let mut local_nums= NUMS.to_vec();
+		let mut local_target_num = TARGET_NUM;
+
+        assert_eq!(sequential(&local_nums, local_target_num).unwrap(), &local_target_num); 
+
+        local_nums.push(123);
+        assert_eq!(sequential(&local_nums, local_target_num).unwrap(), &local_nums[2]); 
+
+        local_nums.push(55); // repeat val
+        assert_eq!(*sequential(&local_nums, local_target_num).unwrap(), local_target_num);
+        
+        local_target_num = 1; // won't find
+        assert_eq!(sequential(&local_nums, local_target_num), None);
+    }
+
+    #[test]
+    #[should_panic]
+    fn seq_search_fail(){
+        let mut local_nums= NUMS.to_vec();
+        let mut local_target_num = TARGET_NUM; 
+        
+        sequential(&local_nums, local_target_num-1).expect("Value wasn't found");
     }
 }

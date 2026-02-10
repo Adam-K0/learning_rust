@@ -68,4 +68,4 @@ mod tests {
         
         sequential(&local_nums, local_target_num-1).expect("Value wasn't found");
     }
-}
+

@@ -1,6 +1,7 @@
 use std::io;
 
 fn main() {
+	// Gathering & cleaning user input
     let mut input = String::new();
     
     println!("Enter which fibonacci number to calculate:");
@@ -9,16 +10,17 @@ fn main() {
         .expect("Failed to read line");
     let input: u32 =  input.trim().parse().expect("Please type a number");
 
+	// Calculation
     let mut left: u128 = 0;
     let mut right: u128 = 1;
     let mut temp: u128;
-    let mut index: u32 = 0;
 
-    while input !=  index {
+    for _ in 0..input {
         temp = left; 
         left = right;
         right = temp + right;
-        index += 1;
-    }
-    println!("{left} at index {index}")
+	}
+
+	// Showing result
+    println!("{left} at index {input}")
 }

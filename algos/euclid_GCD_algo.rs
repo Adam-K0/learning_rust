@@ -1,6 +1,7 @@
 use std::io;
 
 fn main(){
+	// Gathering inputs
     let mut m  = String::new();
     println!("Enter your m value: ");
     io::stdin()
@@ -14,13 +15,16 @@ fn main(){
         .read_line(&mut n)
         .expect("Failed to read line");
     let mut n: i32 =  n.trim().parse().expect("Please type a number");
-    
+   
+    // calculating GCD 
     let mut placeholder: i32;
     while n != 0 {
         placeholder = m;
         m = n;
         n = placeholder % m;
     }
+
+	// showing GCD
     println!("{m}");
 }
 

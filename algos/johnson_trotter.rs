@@ -83,7 +83,8 @@ fn max_mobile_index(num_vec: &Vec<usize>, direction_vec: &Vec<bool>) -> Option<u
 			}
 		}
 	}
-	
+
+	let last_index = num_vec.len()-1;	
 	if num_vec[num_vec.len()-1] > num_vec[num_vec.len()-2] && direction_vec[num_vec.len()-1] { // check rightmost element
 		if num_vec[num_vec.len()-1] > num_vec[max.unwrap_or(num_vec.len()-2)]{
 			max = Some(num_vec.len()-1);

@@ -5,15 +5,15 @@ fn main(){
 	println!("Num list = {:?}", nums);
 	
 	let result = binary_search(&nums, &target);
-	if result != usize::MAX{
-		println!("Found {target} at {result} index");
+	if result.is_some(){
+		println!("Found {target} at index {}", result.unwrap());
 	}
 	else{
 		println!("Didn't find {target} within {nums:?}");
 	}
 }
 
-fn binary_search(nums: &Vec<i32>, target: &i32)-> usize{
+fn binary_search(nums: &Vec<i32>, target: &i32)-> Option<usize>{
 
 	let mut l: usize = 0;
 	let mut r: usize = nums.len()-1;
@@ -21,8 +21,10 @@ fn binary_search(nums: &Vec<i32>, target: &i32)-> usize{
 
 	while l <= r{
 		m = l + ((r - l) / 2);
-		println!("left: {l}, right: {r}, middle {m}");
-		println!("{}", m);
+
+		// uncomment for debugging
+		// println!("left: {l}, middle {m}, right {r}");
+		// println!("Value at middle: {}", nums[m]);
 
 		if nums[m] < *target{ // ignore the left half
 			l = m+1;
@@ -31,10 +33,10 @@ fn binary_search(nums: &Vec<i32>, target: &i32)-> usize{
 			r = m-1;
 		}
 		else{
-			return m;	
+			return Some(m);	
 		}
 	}
-	return usize::MAX 
+	return None 
 }
 
 // gather input from user

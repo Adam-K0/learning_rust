@@ -2,7 +2,6 @@ use std::io;
 
 fn main(){
 	let (nums, target) = gather_input();
-	println!("Num list = {:?}", nums);
 	
 	let result = binary_search(&nums, &target);
 	if result.is_some(){
@@ -44,12 +43,18 @@ fn gather_input()-> (Vec<i32>, i32){
 	let mut nums = Vec::new();
 	let mut input = String::new();
 
-	println!("Enter sorted number list (enter after each num & 0 to finish list)");
+	println!("Enter sorted number list (enter after each num & press Enter on empty line to finish)");
 	loop{
 		input.clear();
 		io::stdin()
 			.read_line(&mut input)
 			.expect("Failed to read line");
+		
+		// Check if input is empty (just pressed Enter)
+		if input.trim().is_empty(){
+			break;
+		}
+		
 		let num: i32 = match input.trim().parse() {
 			Ok(n) => n,
 			Err(_) => {
@@ -57,13 +62,10 @@ fn gather_input()-> (Vec<i32>, i32){
 				continue;
 			}
 		};
-		if num == 0{
-			break;
-		}
 		nums.push(num);
 	}
 
-	println!("Enter number to search for");
+	println!("Enter number to search for: ");
 	input.clear();
 	io::stdin()		
 		.read_line(&mut input)

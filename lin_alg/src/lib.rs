@@ -87,4 +87,14 @@ mod tests {
 
 		assert_eq!(result, correct);
 	}
+	
+	#[test]
+	fn mat_mul_different_dim(){
+		let mat1 = vec![vec![1,2], vec![-2,1]];
+		let mat2 = vec![vec![1; 4]; 2];
+		let result = mat_mul(&mat1, &mat2);
+		let correct = vec![vec![3; 4], vec![-1; 4]] ;
+
+		assert_eq!(result, correct);
+	}
 }

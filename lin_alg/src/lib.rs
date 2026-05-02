@@ -20,7 +20,10 @@ pub fn scale_row(mat: & mut Vec<Vec<isize>>, row: usize, scale: isize) -> Vec<Ve
 	mat.to_vec()
 }
 
-pub fn mat_mul(mat1: & Vec<Vec<isize>>, mat2: & Vec<Vec<isize>>) -> Vec<Vec<isize>> {
+pub fn mat_mul(mat1: & Vec<Vec<isize>>, mat2: & Vec<Vec<isize>>) -> Option< Vec<Vec<isize>> > {
+	if mat1[0].len() != mat2.len(){
+		return None
+	}
 	let mut result = vec![vec![0; mat2[0].len()]; mat1.len()];
 
 	for row in 0..mat1.len() {
@@ -32,7 +35,7 @@ pub fn mat_mul(mat1: & Vec<Vec<isize>>, mat2: & Vec<Vec<isize>>) -> Vec<Vec<isiz
 			result[row][col] = sum; 
 		}
 	}
-	result.to_vec()
+	Some(result.to_vec())
 }
 
 #[cfg(test)]
@@ -72,7 +75,7 @@ mod tests {
 	fn mat_mul_identity(){
 		let mat1 = vec![vec![1,0], vec![0, 1]];
 		let mat2 = vec![vec![44,100], vec![0, -44]];
-		let result = mat_mul(&mat1, &mat2);
+		let result = mat_mul(&mat1, &mat2).unwrap();
 		let correct = mat2; 
 		
 		assert_eq!(result, correct);
@@ -82,7 +85,7 @@ mod tests {
 	fn mat_mul_shared_dim(){
 		let mat1 = vec![vec![1,2], vec![-2,1]];
 		let mat2 = vec![vec![3,3], vec![1,1]];
-		let result = mat_mul(&mat1, &mat2);
+		let result = mat_mul(&mat1, &mat2).unwrap();
 		let correct = vec![vec![5,5], vec![-5,-5]]; 
 
 		assert_eq!(result, correct);
@@ -92,7 +95,7 @@ mod tests {
 	fn mat_mul_different_dim(){
 		let mat1 = vec![vec![1,2], vec![-2,1]];
 		let mat2 = vec![vec![1; 4]; 2];
-		let result = mat_mul(&mat1, &mat2);
+		let result = mat_mul(&mat1, &mat2).unwrap();
 		let correct = vec![vec![3; 4], vec![-1; 4]] ;
 
 		assert_eq!(result, correct);

@@ -12,7 +12,7 @@ pub fn transpose(mat: &Vec<Vec<usize>> ) -> Vec<Vec<usize>> {
 	
 	transpose	
 }
-pub fn scale_row(mat: & mut Vec<Vec<usize>>, row: usize, scale: usize) -> Vec<Vec<usize>>{
+pub fn scale_row(mat: & mut Vec<Vec<isize>>, row: usize, scale: isize) -> Vec<Vec<isize>>{
 	for entry in 0..mat[row].len() {
 		mat[row][entry] = mat[row][entry] * scale;
 	}
@@ -39,9 +39,9 @@ mod tests {
 	}
 	#[test]
 	fn scale_2x2(){
-		let mut mat = vec![vec![44,100], vec![0, 44]];
+		let mut mat = vec![vec![44,100], vec![0, -44]];
 		let result = scale_row(& mut mat, 1, 2);
-		let correct = vec![vec![44,100], vec![0, 88]];
+		let correct = vec![vec![44,100], vec![0, -88]];
 		assert_eq!(result, correct);
 	}
 }

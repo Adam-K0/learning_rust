@@ -42,6 +42,9 @@ mod tests {
 		let mut mat = vec![vec![44,100], vec![0, -44]];
 		let result = scale_row(& mut mat, 1, 2);
 		let correct = vec![vec![44,100], vec![0, -88]];
+		let incorrect = vec![vec![44,100], vec![0, 88]];
 		assert_eq!(result, correct);
+		assert_ne!(result, incorrect);
 	}
+	
 }

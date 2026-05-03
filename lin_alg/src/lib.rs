@@ -14,7 +14,7 @@ pub fn transpose(mat: &Vec<Vec<usize>> ) -> Vec<Vec<usize>> {
 }
 mod elementary_row_operations{
 
-	pub fn scale_row(mat: &mut Vec<Vec<isize>>, row: usize, scale: isize) -> Vec<Vec<isize>>{
+	pub fn scale(mat: &mut Vec<Vec<isize>>, row: usize, scale: isize) -> Vec<Vec<isize>>{
 		for entry in 0..mat[row].len() {
 			mat[row][entry] = mat[row][entry] * scale;
 		}
@@ -22,10 +22,18 @@ mod elementary_row_operations{
 	}
 
 	// combines matrix's row 1 and row 2 replacing row 2
-	pub fn combine_rows(mat: &mut Vec<Vec<isize>>, row1_index: usize, row2_index: usize) -> Vec<Vec<isize>> {
+	pub fn combine(mat: &mut Vec<Vec<isize>>, row1_index: usize, row2_index: usize) -> Vec<Vec<isize>> {
 		for entry in 0..mat[row2_index].len() {
 			mat[row2_index][entry] += mat[row1_index][entry];
 		}
+		mat.to_vec()
+	}
+
+	pub fn swap(mat: &mut Vec<Vec<isize>>, row1_index: usize, row2_index: usize) -> Vec<Vec<isize>> {
+		let plcholder: Vec<isize> = mat[row2_index].clone();
+		mat[row2_index] = mat[row1_index].clone();
+		mat[row1_index] = plcholder;
+
 		mat.to_vec()
 	}
 }
@@ -74,7 +82,7 @@ mod tests {
 	#[test]
 	fn scale_2x2(){
 		let mut mat = vec![vec![44,100], vec![0, -44]];
-		let result = elementary_row_operations::scale_row(& mut mat, 1, 2);
+		let result = elementary_row_operations::scale(& mut mat, 1, 2);
 		let correct = vec![vec![44,100], vec![0, -88]];
 		let incorrect = vec![vec![44,100], vec![0, 88]];
 
@@ -85,8 +93,17 @@ mod tests {
 	#[test]
 	fn add_rows(){
 		let mut mat = vec![vec![44,100], vec![0, -44]];
-		let result = elementary_row_operations::combine_rows(& mut mat, 0, 1);
+		let result = elementary_row_operations::combine(& mut mat, 0, 1);
 		let correct = vec![vec![44,100], vec![44, 56]];
+
+		assert_eq!(result, correct);
+	}
+
+	#[test]
+	fn swap_rows(){
+		let mut mat = vec![vec![44,100], vec![0, -44]];
+		let result = elementary_row_operations::swap(& mut mat, 0, 1);
+		let correct = vec![vec![0,-44], vec![44,100]];
 
 		assert_eq!(result, correct);
 	}

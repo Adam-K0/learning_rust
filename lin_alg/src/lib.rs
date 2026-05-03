@@ -12,15 +12,25 @@ pub fn transpose(mat: &Vec<Vec<usize>> ) -> Vec<Vec<usize>> {
 	
 	transpose	
 }
+mod elementary_row_operations{
 
-pub fn scale_row(mat: & mut Vec<Vec<isize>>, row: usize, scale: isize) -> Vec<Vec<isize>>{
-	for entry in 0..mat[row].len() {
-		mat[row][entry] = mat[row][entry] * scale;
+	pub fn scale_row(mat: &mut Vec<Vec<isize>>, row: usize, scale: isize) -> Vec<Vec<isize>>{
+		for entry in 0..mat[row].len() {
+			mat[row][entry] = mat[row][entry] * scale;
+		}
+		mat.to_vec()
 	}
-	mat.to_vec()
+
+	// combines matrix's row 1 and row 2 replacing row 2
+	pub fn combine_rows(mat: &mut Vec<Vec<isize>>, row1_index: usize, row2_index: usize) -> Vec<Vec<isize>> {
+		for entry in 0..mat[row2_index].len() {
+			mat[row2_index][entry] += mat[row1_index][entry];
+		}
+		mat.to_vec()
+	}
 }
 
-pub fn mat_mul(mat1: & Vec<Vec<isize>>, mat2: & Vec<Vec<isize>>) -> Option< Vec<Vec<isize>> > {
+pub fn mat_mul(mat1: &Vec<Vec<isize>>, mat2: &Vec<Vec<isize>>) -> Option< Vec<Vec<isize>> > {
 	if mat1[0].len() != mat2.len(){
 		return None
 	}
@@ -37,6 +47,7 @@ pub fn mat_mul(mat1: & Vec<Vec<isize>>, mat2: & Vec<Vec<isize>>) -> Option< Vec<
 	}
 	Some(result.to_vec())
 }
+
 
 #[cfg(test)]
 mod tests {
@@ -63,12 +74,21 @@ mod tests {
 	#[test]
 	fn scale_2x2(){
 		let mut mat = vec![vec![44,100], vec![0, -44]];
-		let result = scale_row(& mut mat, 1, 2);
+		let result = elementary_row_operations::scale_row(& mut mat, 1, 2);
 		let correct = vec![vec![44,100], vec![0, -88]];
 		let incorrect = vec![vec![44,100], vec![0, 88]];
 
 		assert_eq!(result, correct);
 		assert_ne!(result, incorrect);
+	}
+
+	#[test]
+	fn add_rows(){
+		let mut mat = vec![vec![44,100], vec![0, -44]];
+		let result = elementary_row_operations::combine_rows(& mut mat, 0, 1);
+		let correct = vec![vec![44,100], vec![44, 56]];
+
+		assert_eq!(result, correct);
 	}
 
 	#[test]	

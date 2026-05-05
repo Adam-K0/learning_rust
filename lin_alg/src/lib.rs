@@ -91,7 +91,7 @@ mod tests {
 	}
 
 	#[test]
-	fn add_rows(){
+	fn combine_rows(){
 		let mut mat = vec![vec![44,100], vec![0, -44]];
 		let result = elementary_row_operations::combine(& mut mat, 0, 1);
 		let correct = vec![vec![44,100], vec![44, 56]];
@@ -136,5 +136,14 @@ mod tests {
 		let correct = vec![vec![3; 4], vec![-1; 4]] ;
 
 		assert_eq!(result, correct);
+	}
+
+	#[test]
+	#[should_panic]
+	fn mat_mul_wrong_dim(){
+		let mat1 = vec![vec![1,2,3], vec![11,12,13]];
+		let mat2 = vec![vec![1,2], vec![11, 12]];
+		let result = mat_mul(&mat1, &mat2);
+		result.unwrap();
 	}
 }

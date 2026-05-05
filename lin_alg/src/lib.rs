@@ -38,6 +38,17 @@ mod elementary_row_operations{
 	}
 }
 
+pub fn dot_prod(vec1: &Vec<isize>, vec2: &Vec<isize>) -> Option< isize >{
+	if vec1.len() != vec2.len(){
+		return None
+	}
+	let mut result: isize = 0;
+	for i in 0..vec1.len(){
+		result += vec1[i] * vec2[i]	;
+	}
+	Some(result)
+}
+
 pub fn mat_mul(mat1: &Vec<Vec<isize>>, mat2: &Vec<Vec<isize>>) -> Option< Vec<Vec<isize>> > {
 	if mat1[0].len() != mat2.len(){
 		return None
@@ -145,5 +156,24 @@ mod tests {
 		let mat2 = vec![vec![1,2], vec![11, 12]];
 		let result = mat_mul(&mat1, &mat2);
 		result.unwrap();
+	}
+
+	#[test]
+	fn dot_prod_3x1(){
+		let vec1 = vec![1,2,3];
+		let vec2 = vec![101,202,303];
+		let res = dot_prod(&vec1, &vec2).unwrap();
+		let correct = 101+404+909;
+
+		assert_eq!(res, correct);
+	}
+
+	#[test]
+	#[should_panic]
+	fn dot_prod_mismatch_lens(){
+		let vec1 = vec![1,2,3,4];
+		let vec2 = vec![1,2,3,4,5];
+		let res = dot_prod(&vec1, &vec2);
+		res.unwrap();
 	}
 }

@@ -1,4 +1,4 @@
-pub fn transpose(mat: &Vec<Vec<usize>> ) -> Vec<Vec<usize>> {
+pub fn transpose(mat: &Vec<Vec<isize>> ) -> Vec<Vec<isize>> {
 	let mut transpose = vec![vec![0; mat.len()]; mat[0].len()] ;
 	// uncomment for debugging
 	// println!("mat's dims = { } by { } ", mat.len(), mat[0].len() );

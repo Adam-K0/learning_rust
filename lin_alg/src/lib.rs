@@ -12,20 +12,20 @@ pub fn transpose(mat: &Vec<Vec<isize>> ) -> Vec<Vec<isize>> {
 	
 	transpose	
 }
-mod elementary_row_operations{
+pub mod elementary_row_operations{
 
-	fn scale_entries(entries: &mut [isize], scale: isize) {
+	fn scale_entries(entries: &mut [f64], scale: f64) {
 		for entry in entries {
 			*entry *= scale;
 		}
 	}
 
-	pub fn scale_mat(mat: &mut [Vec<isize>], row: usize, scale: isize) -> Vec<Vec<isize>>{
+	pub fn scale_mat(mat: &mut [Vec<f64>], row: usize, scale: f64) -> Vec<Vec<f64>>{
 		scale_entries(&mut mat[row], scale);
 		mat.to_vec()
 	}
 
-	pub fn scale_vec(vec: &mut [isize], scale: isize) -> Vec<isize> {
+	pub fn scale_vec(vec: &mut [f64], scale: f64) -> Vec<f64> {
 		scale_entries(vec, scale);
 		vec.to_vec()
 	}
@@ -48,26 +48,27 @@ mod elementary_row_operations{
 }
 
 mod vector{
-	pub fn dot_prod(vec1: &Vec<isize>, vec2: &Vec<isize>) -> Option< isize >{
+	pub fn dot_prod(vec1: &Vec<f64>, vec2: &Vec<f64>) -> Option< f64 >{
 		if vec1.len() != vec2.len(){
 			return None
 		}
-		let mut result: isize = 0;
+		let mut result: f64 = 0_f64;
 		for i in 0..vec1.len(){
-			result += vec1[i] * vec2[i]	;
+			result += vec1[i] * vec2[i];
 		}
 		Some(result)
 	}
 
-	pub fn magnitude(vec: &Vec<isize>) -> isize{
+	pub fn magnitude(vec: &Vec<f64>) -> f64{
 		// unwrap is chill here cuz the arguements guaranteed to be same length
-		return dot_prod(&vec, &vec).unwrap().isqrt()
+		return dot_prod(&vec, &vec).unwrap().sqrt()
 	}
 
-	pub fn normalize(vec: & mut Vec<isize>) {
+	pub fn normalize(vec: & mut Vec<f64>) {
 		let mag = magnitude(&vec);
+
 		for entry in vec {
-			*entry *= (1/mag.isqrt());
+			*entry *= 1_f64/mag;
 		}
 	}
 }
@@ -116,10 +117,10 @@ mod tests {
 
 	#[test]
 	fn scale_2x2(){
-		let mut mat = vec![vec![44,100], vec![0, -44]];
-		let result = elementary_row_operations::scale_mat(& mut mat, 1, 2);
-		let correct = vec![vec![44,100], vec![0, -88]];
-		let incorrect = vec![vec![44,100], vec![0, 88]];
+		let mut mat = vec![vec![44.0,100.0], vec![0.0, -44.0]];
+		let result = elementary_row_operations::scale_mat(& mut mat, 1, 2.0);
+		let correct = vec![vec![44.0,100.0], vec![0.0, -88.0]];
+		let incorrect = vec![vec![44.0,100.0], vec![0.0, 88.0]];
 
 		assert_eq!(result, correct);
 		assert_ne!(result, incorrect);
@@ -128,10 +129,10 @@ mod tests {
 	#[test]
 	#[should_panic]
 	fn scale_2x2_bad_row_index(){
-		let mut mat = vec![vec![44,100], vec![0, -44]];
-		let result = elementary_row_operations::scale_mat(& mut mat, 3, 2);
-		let correct = vec![vec![44,100], vec![0, -88]];
-		let incorrect = vec![vec![44,100], vec![0, 88]];
+		let mut mat = vec![vec![44.0,100.0], vec![0.0, -44.0]];
+		let result = elementary_row_operations::scale_mat(& mut mat, 3, 2.0);
+		let correct = vec![vec![44.0,100.0], vec![0.0, -88.0]];
+		let incorrect = vec![vec![44.0,100.0], vec![0.0, 88.0]];
 
 		assert_eq!(result, correct);
 		assert_ne!(result, incorrect);
@@ -139,9 +140,9 @@ mod tests {
 
 	#[test]
 	fn scale_vec_3x1(){
-		let mut vec = vec![44, 0, -44];
-		let result = elementary_row_operations::scale_vec(&mut vec, 2);
-		let correct = vec![88, 0, -88];
+		let mut vec = vec![44.0, 0.0, -44.0];
+		let result = elementary_row_operations::scale_vec(&mut vec, 2.0);
+		let correct = vec![88.0, 0.0, -88.0];
 
 		assert_eq!(result, correct);
 	}
@@ -205,10 +206,10 @@ mod tests {
 
 	#[test]
 	fn dot_prod_3x1(){
-		let vec1 = vec![1,2,3];
-		let vec2 = vec![101,202,303];
+		let vec1 = vec![1.0,2.0,3.0];
+		let vec2 = vec![101.0,202.0,303.0];
 		let res = vector::dot_prod(&vec1, &vec2).unwrap();
-		let correct = 101+404+909;
+		let correct = 101.0+404.0+909.0;
 
 		assert_eq!(res, correct);
 	}
@@ -216,27 +217,29 @@ mod tests {
 	#[test]
 	#[should_panic]
 	fn dot_prod_mismatch_lens(){
-		let vec1 = vec![1,2,3,4];
-		let vec2 = vec![1,2,3,4,5];
+		let vec1 = vec![1.0,2.0,3.0,4.0];
+		let vec2 = vec![1.0,2.0,3.0,4.0,5.0];
 		let res = vector::dot_prod(&vec1, &vec2);
 		res.unwrap();
 	}
 
 	#[test]
 	fn magnitude_3x1(){
-		let vec = vec![4,-5,-4];
+		let vec = vec![4.0,-5.0,-4.0];
 		let res = vector::magnitude(&vec);
-		let correct = 57_isize.isqrt();
+		let correct = 57_f64.sqrt();
 		assert_eq!(res, correct);
 	}
 
 	
 	#[test]
 	fn normalize_10x1(){
-		let mut vec = vec![2,2,2,3,3,3,7,7,7,10];
+		let mut vec = vec![2.0,2.0,2.0,3.0,3.0,3.0,7.0,7.0,7.0,10.0];
+
+		let mut vec2 = vec.clone();
 		vector::normalize(&mut vec);
-		let mut vec2 = vec![2,2,2,3,3,3,7,7,7,10];
-		let correct = elementary_row_operations::scale_vec(&mut vec2, 1/(286_isize.isqrt()));
+
+		let correct = elementary_row_operations::scale_vec(&mut vec2, 1.0/(286_f64.sqrt()));
 		assert_eq!(vec, correct);
 	}
 	

@@ -3,7 +3,7 @@ use rand::Rng;
 use std::cmp::Ordering;
 
 fn main() {
-	let runs = 100_000;
+	let runs = 10_000;
 	let drop = 1;
 
 	let mut total: i32 = 0;
@@ -19,19 +19,19 @@ fn main() {
 		let mut upper = 101;
 
 		loop{
-			let guess = ((upper-lower) / 2_i32 ) + lower;
+			let guess = ((upper-lower) / 2 ) + lower;
 			// thread::sleep(Duration::from_millis(100));
 
 			println!("\t Guessed: {guess}");
 
 			match guess.cmp(&secret_num) {
 				Ordering::Less => {
-					lower += (upper-lower)/2_i32;
+					lower += (upper-lower)/2;
 					println!("\t new lower {lower} \n");
 					// println!("Too small")
 				}
  				Ordering::Greater => {
-					upper -= (upper-lower)/2_i32;
+					upper -= (upper-lower)/2;
 					println!("\t new upper {upper} \n");
 					// println!("Too big"),
 				}

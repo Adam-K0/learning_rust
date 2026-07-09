@@ -14,20 +14,20 @@ pub fn transpose(mat: &Vec<Vec<isize>> ) -> Vec<Vec<isize>> {
 }
 pub mod elementary_row_operations{
 
-	fn scale_entries(entries: &mut [f64], scale: f64) {
+	fn scale_entries<T: std::ops::MulAssign + Copy>(entries: &mut [T], scale: T) {
 		for entry in entries {
 			*entry *= scale;
 		}
 	}
 
-	pub fn scale_mat(mat: &mut [Vec<f64>], row: usize, scale: f64) -> Vec<Vec<f64>>{
+	pub fn scale_mat<T: std::ops::MulAssign + Copy>(mat: &mut [Vec<T>], row: usize, scale: T) -> &[Vec<T>] {
 		scale_entries(&mut mat[row], scale);
-		mat.to_vec()
+		mat
 	}
 
-	pub fn scale_vec(vec: &mut [f64], scale: f64) -> Vec<f64> {
+	pub fn scale_vec<T: std::ops::MulAssign + Copy>(vec: &mut [T], scale: T) -> &[T] {
 		scale_entries(vec, scale);
-		vec.to_vec()
+		vec
 	}
 
 	// combines matrix's row 1 and row 2 replacing row 2
@@ -48,20 +48,26 @@ pub mod elementary_row_operations{
 }
 
 mod vector{
-	pub fn dot_prod(vec1: &Vec<f64>, vec2: &Vec<f64>) -> Option< f64 >{
+	pub fn dot_prod<T>(vec1: &[T], vec2: &[T]) -> Result<T, String>
+	where
+		T: Copy + Clone + Default + std::ops::Mul<Output = T> + std::ops::AddAssign,
+	{
 		if vec1.len() != vec2.len(){
-			return None
+			return Err(String::from("Mismatch Dimensions"));
 		}
-		let mut result: f64 = 0_f64;
+		let mut result = T::default();
 		for i in 0..vec1.len(){
 			result += vec1[i] * vec2[i];
 		}
-		Some(result)
+		Ok(result)
 	}
 
-	pub fn magnitude(vec: &Vec<f64>) -> f64{
+	pub fn magnitude<T>(vec: &Vec<T>) -> T	
+	where
+		T: Copy + Default + std::ops::Mul<Output = T> + std::ops::AddAssign + ,
+	{
 		// unwrap is chill here cuz the arguements guaranteed to be same length
-		return dot_prod(&vec, &vec).unwrap().sqrt()
+		return dot_prod(&vec, &vec).unwrap() as f64.sqrt()
 	}
 
 	pub fn normalize(vec: & mut Vec<f64>) {
@@ -117,10 +123,10 @@ mod tests {
 
 	#[test]
 	fn scale_2x2(){
-		let mut mat = vec![vec![44.0,100.0], vec![0.0, -44.0]];
-		let result = elementary_row_operations::scale_mat(& mut mat, 1, 2.0);
-		let correct = vec![vec![44.0,100.0], vec![0.0, -88.0]];
-		let incorrect = vec![vec![44.0,100.0], vec![0.0, 88.0]];
+		let mut mat = vec![vec![44,100], vec![0, -44]];
+		let result = elementary_row_operations::scale_mat(& mut mat, 1, 2);
+		let correct = vec![vec![44,100], vec![0, -88]];
+		let incorrect = vec![vec![44,100], vec![0, 88]];
 
 		assert_eq!(result, correct);
 		assert_ne!(result, incorrect);
@@ -140,9 +146,9 @@ mod tests {
 
 	#[test]
 	fn scale_vec_3x1(){
-		let mut vec = vec![44.0, 0.0, -44.0];
-		let result = elementary_row_operations::scale_vec(&mut vec, 2.0);
-		let correct = vec![88.0, 0.0, -88.0];
+		let mut vec = vec![44, 0, -44];
+		let result = elementary_row_operations::scale_vec(&mut vec, 2);
+		let correct = vec![88, 0, -88];
 
 		assert_eq!(result, correct);
 	}

@@ -1,12 +1,40 @@
 use rand::Rng;
 
-fn sequential(list: &[i32], target: i32) -> Option<&i32>{
-    for i in list{
-        if *i == target{
+// If target value is found then its index within list will be returned
+fn sequential(list: &[i32], target: &i32) -> Option<usize>{
+    for i in 0..list.len() {
+        if list[i] == *target{
            return Some(i);
         } 
     }
     None
+}
+
+// If target value is found then its index within list will be returned
+fn binary_search(list: &[i32], target: &i32)-> Option<usize>{
+
+	let mut l: usize = 0;
+	let mut r: usize = list.len()-1;
+	let mut m: usize;
+
+	while l <= r {
+		m = l + ((r - l) / 2);
+
+		// uncomment for debugging
+		// println!("left: {l}, middle {m}, right {r}");
+		// println!("Value at middle: {}", list[m]);
+
+		if list[m] < *target{ // ignore the left half
+			l = m+1;
+		}
+		else if list[m] > *target{ // ignore the right half
+			r = m-1;
+		}
+		else{
+			return Some(m);	
+		}
+	}
+	None 
 }
 
 /* W.I.P
@@ -48,16 +76,13 @@ mod tests {
 		let mut local_nums= NUMS.to_vec();
 		let mut local_target_num = TARGET_NUM;
 
-        assert_eq!(sequential(&local_nums, local_target_num).unwrap(), &local_target_num); 
-
-        local_nums.push(123);
-        assert_eq!(sequential(&local_nums, local_target_num).unwrap(), &local_nums[2]); 
+        assert_eq!(sequential(&local_nums, &local_target_num).unwrap(), 2_usize); 
 
         local_nums.push(55); // repeat val
-        assert_eq!(*sequential(&local_nums, local_target_num).unwrap(), local_target_num);
+        assert_eq!(sequential(&local_nums, &local_target_num).unwrap(), 2_usize);
         
         local_target_num = 1; // won't find
-        assert_eq!(sequential(&local_nums, local_target_num), None);
+        assert_eq!(sequential(&local_nums, &local_target_num), None);
     }
 
     #[test]
@@ -66,7 +91,17 @@ mod tests {
         let mut local_nums= NUMS.to_vec();
         let mut local_target_num = TARGET_NUM; 
         
-        sequential(&local_nums, local_target_num-1).expect("Value wasn't found");
+        sequential(&local_nums, &(local_target_num-1)).expect("Value wasn't found");
     }
 
+    #[test]
+    fn binary_search_test(){
+        let mut local_nums = NUMS.to_vec();
+        let mut local_target_num =  TARGET_NUM;
+
+        assert_eq!(binary_search(&local_nums, &local_target_num).unwrap(), 2_usize);
+
+        local_target_num = 1; // won't find
+        assert_eq!(sequential(&local_nums, &local_target_num), None);
+    }
 }
